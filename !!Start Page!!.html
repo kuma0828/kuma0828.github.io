@@ -1,0 +1,701 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="zh-CN">
+  <head>
+    <title>Travel in Space</title>
+
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+    <meta http-equiv="content-language" content="zh-CN" />
+
+    <style type="text/css">
+      /* fonts
+-------------------------------------------------------------------------------*/
+      @font-face {
+        font-family: "BebasNeue";
+        src: url("css/webfonts/bebas-neue.eot");
+        src: url("css/webfonts/bebas-neue.eot?#iefix")
+            format("embedded-opentype"),
+          url("css/webfonts/bebas-neue.woff") format("woff"),
+          url("css/webfonts/bebas-neue.ttf") format("truetype"),
+          url("css/webfonts/bebas-neue.svg#bebas-neue") format("svg");
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Copperplate";
+        src: url("css/webfonts/copperplate.eot");
+        src: url("css/webfonts/copperplate.eot?#iefix")
+            format("embedded-opentype"),
+          url("css/webfonts/copperplate.woff") format("woff"),
+          url("css/webfonts/copperplate.ttf") format("truetype"),
+          url("css/webfonts/copperplate.svg#copperplate") format("svg");
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Audiowide";
+        src: url("css/webfonts/audiowide.woff") format("woff"),
+          url("css/webfonts/audiowide.ttf") format("truetype"),
+          url("css/webfonts/audiowide.svg#audiowide") format("svg");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      @font-face {
+        font-family: "BaiJamjuree";
+        src: url("css/webfonts/BaiJamjuree-Regular.woff") format("woff"),
+          url("css/webfonts/BaiJamjuree-Regular.ttf") format("truetype"),
+          url("css/webfonts/BaiJamjuree-Regular.svg#audiowide") format("svg");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      .demo {
+        font-family: "titleFont";
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #000000;
+        font-size: 0;
+        overflow: hidden;
+      }
+
+      h1 {
+        font-family: "BebasNeue";
+      }
+
+      div {
+        margin: 0;
+        padding: 0;
+        color: #ffffff;
+        position: relative;
+        font-size: 0;
+        overflow: hidden;
+      }
+
+      canvas {
+        background-color: #c22222;
+        overflow: hidden;
+      }
+
+      /* info box 
+-------------------------------------------------------------------------------*/
+      .info-box {
+        display: inline-block;
+        position: relative;
+        background-color: #555555;
+        background-color: rgba(50, 50, 50, 0.8);
+        width: 100%;
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding-box;
+        background-clip: padding-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 11px;
+        margin: 11px 0;
+        border: 1px solid #222;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+      .info-box .arrow,
+      .info-box .arrow:after {
+        position: absolute;
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+      }
+      .info-box .content,
+      .info-box .title {
+        margin: 0;
+        padding: 0px 0;
+      }
+      .info-box i + .title,
+      .info-box img + .title {
+        padding-top: 0;
+      }
+      .info-box .title {
+        border-bottom: 1px solid #444;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        -webkit-border-radius: 5px 5px 0 0;
+        -moz-border-radius: 5px 5px 0 0;
+        border-radius: 5px 5px 0 0;
+      }
+      .info-box.bottom {
+        margin-top: 10px;
+      }
+      .info-box.bottom .arrow {
+        top: -10px;
+        left: 50%;
+        margin-left: -10px;
+        border-width: 0 10px 10px;
+        border-bottom-color: #555555;
+        border-bottom-color: rgba(50, 50, 50, 0.8);
+      }
+
+      /* 框的hover透明度变化 */
+      .dim:not(.active) {
+        opacity: 0.4;
+      }
+      a.dim:hover,
+      button.dim:hover,
+      .btn.dim:hover {
+        opacity: 1;
+      }
+
+      .highlightable {
+        -webkit-transition: opacity 0.3s linear;
+        -moz-transition: opacity 0.3s linear;
+        -o-transition: opacity 0.3s linear;
+        transition: opacity 0.3s linear;
+      }
+      .highlightable:not(.dim) {
+        opacity: 0.4;
+      }
+      .highlightable:hover,
+      .highlightable:active {
+        opacity: 1 !important;
+      }
+
+      .ui-pane-column,
+      [class^="ui-pane-column"],
+      [class*=" ui-pane-column"] {
+        height: 100%;
+        top: 0;
+      }
+      .ui-pane-middle {
+        width: 80%;
+        left: 10%;
+        right: 10%;
+      }
+
+      /* setup
+-------------------------------------------------------------------------------*/
+      #setup h1 {
+        margin-top: 20px;
+        margin-bottom: 0;
+      }
+      #setup .info-box {
+        width: 35%;
+      }
+
+      #solar-system,
+      .system-section {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        position: absolute;
+      }
+      #solar-system,
+      .system-section,
+      .container-fill {
+        min-width: 979px;
+        min-height: 550px;
+      }
+
+      .container-fill {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-width: 100%;
+        padding: 0;
+        margin: 0;
+        min-height: 100%;
+      }
+
+      /* containers 
+-------------------------------------------------------------------------------*/
+      .container-center {
+        text-align: center;
+      }
+      .container-center .brand {
+        float: none;
+        position: absolute;
+      }
+      .container-center .nav,
+      .container-center .thumbnails,
+      .container-center .inline {
+        display: inline-block;
+        *display: inline;
+        zoom: 1;
+        float: none;
+      }
+      .container-center .inline {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+      .container-center .row {
+        display: inline-block;
+        *display: inline;
+        zoom: 1;
+      }
+      .container-left {
+        text-align: left;
+      }
+      .container-left .brand {
+        float: left;
+        position: relative;
+      }
+      .container-left .nav,
+      .container-left .thumbnails,
+      .container-left .inline {
+        display: block;
+        float: left;
+      }
+      .container-left .inline {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+      .container-left .row {
+        display: block;
+      }
+      .container-right {
+        text-align: right;
+      }
+      .container-right .brand {
+        float: right;
+        position: relative;
+      }
+      .container-right .nav,
+      .container-right .thumbnails,
+      .container-right .inline {
+        display: block;
+        float: right;
+      }
+      .container-right .inline {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+      .container-right .row {
+        display: block;
+      }
+      .container-fill {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-width: 100%;
+        padding: 0;
+        margin: 0;
+        min-height: 100%;
+      }
+      @media (max-width: 767px) {
+        .container {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+        .container .container {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+      /* panes 
+-------------------------*/
+      .ui-pane,
+      [class^="ui-pane-"],
+      [class*=" ui-pane-"] {
+        position: absolute;
+        min-width: 60px;
+        min-height: 60px;
+        pointer-events: none;
+      }
+      .ui-pane-overlay {
+        z-index: 9999;
+      }
+      .ui-pane-column,
+      [class^="ui-pane-column"],
+      [class*=" ui-pane-column"] {
+        height: 100%;
+        top: 0;
+      }
+      .ui-pane-middle {
+        width: 80%;
+        left: 10%;
+        right: 10%;
+      }
+      .ui-pane-left,
+      .ui-pane-right {
+        min-width: 10%;
+      }
+      .ui-pane-right {
+        right: 0;
+      }
+      .ui-pane-right > * {
+        *zoom: 1;
+      }
+      .ui-pane-right > *:before,
+      .ui-pane-right > *:after {
+        display: table;
+        content: "";
+        line-height: 0;
+      }
+      .ui-pane-right > *:after {
+        clear: both;
+      }
+      .ui-pane-right > * > * {
+        float: right;
+        *zoom: 1;
+      }
+      .ui-pane-right > * > *:before,
+      .ui-pane-right > * > *:after {
+        display: table;
+        content: "";
+        line-height: 0;
+      }
+      .ui-pane-right > * > *:after {
+        clear: both;
+      }
+      .ui-pane-top {
+        top: 0;
+      }
+      .ui-pane-bottom {
+        bottom: 0;
+      }
+      .ui-pane-body-top {
+        top: 60px;
+      }
+      .ui-pane-body-bottom {
+        bottom: 60px;
+      }
+      .ui-pane-section,
+      [class^="ui-pane-section"],
+      [class*=" ui-pane-section"] {
+        width: 100%;
+      }
+      .ui-pane-section-header,
+      .ui-pane-section-footer {
+        min-height: 60px;
+      }
+      .ui-pane-section-header {
+        top: 0;
+      }
+      .ui-pane-section-footer {
+        bottom: 0;
+      }
+      .ui-pane-section-body {
+        top: 60px;
+        bottom: 60px;
+      }
+      .ui-pane-section-half-top,
+      .ui-pane-section-half-bottom {
+        height: 50%;
+      }
+      .ui-pane-section-third-top,
+      .ui-pane-section-third-middle,
+      .ui-pane-section-third-bottom {
+        height: 33%;
+      }
+      .ui-pane-section-quarter-top,
+      .ui-pane-section-quarter-top-middle,
+      .ui-pane-section-quarter-bottom-middle,
+      .ui-pane-section-quarter-bottom {
+        height: 25%;
+      }
+      .ui-pane-section-third-middle {
+        top: 33%;
+      }
+      .ui-pane-section-quarter-top-middle {
+        top: 25%;
+      }
+      .ui-pane-section-eighth-top-middle {
+        top: 12.5%;
+      }
+      .ui-pane-section-quarter-bottom-middle {
+        bottom: 25%;
+      }
+      .ui-pane-expandable {
+        height: auto;
+      }
+
+      /* panes 
+-------------------------*/
+      .ui-pane,
+      [class^="ui-pane-"],
+      [class*=" ui-pane-"] {
+        position: absolute;
+        min-width: 60px;
+        min-height: 60px;
+        pointer-events: none;
+      }
+      .ui-pane-overlay {
+        z-index: 9999;
+      }
+      .ui-pane-column,
+      [class^="ui-pane-column"],
+      [class*=" ui-pane-column"] {
+        height: 100%;
+        top: 0;
+      }
+      .ui-pane-middle {
+        width: 80%;
+        left: 10%;
+        right: 10%;
+      }
+      .ui-pane-left,
+      .ui-pane-right {
+        min-width: 10%;
+      }
+      .ui-pane-right {
+        right: 0;
+      }
+      .ui-pane-right > * {
+        *zoom: 1;
+      }
+      .ui-pane-right > *:before,
+      .ui-pane-right > *:after {
+        display: table;
+        content: "";
+        line-height: 0;
+      }
+      .ui-pane-right > *:after {
+        clear: both;
+      }
+      .ui-pane-right > * > * {
+        float: right;
+        *zoom: 1;
+      }
+      .ui-pane-right > * > *:before,
+      .ui-pane-right > * > *:after {
+        display: table;
+        content: "";
+        line-height: 0;
+      }
+      .ui-pane-right > * > *:after {
+        clear: both;
+      }
+      .ui-pane-top {
+        top: 0;
+      }
+      .ui-pane-bottom {
+        bottom: 0;
+      }
+      .ui-pane-body-top {
+        top: 60px;
+      }
+      .ui-pane-body-bottom {
+        bottom: 60px;
+      }
+      .ui-pane-section,
+      [class^="ui-pane-section"],
+      [class*=" ui-pane-section"] {
+        width: 100%;
+      }
+      .ui-pane-section-header,
+      .ui-pane-section-footer {
+        min-height: 60px;
+      }
+      .ui-pane-section-header {
+        top: 0;
+      }
+      .ui-pane-section-footer {
+        bottom: 0;
+      }
+      .ui-pane-section-body {
+        top: 60px;
+        bottom: 60px;
+      }
+      .ui-pane-section-half-top,
+      .ui-pane-section-half-bottom {
+        height: 50%;
+      }
+      .ui-pane-section-third-top,
+      .ui-pane-section-third-middle,
+      .ui-pane-section-third-bottom {
+        height: 33%;
+      }
+      .ui-pane-section-quarter-top,
+      .ui-pane-section-quarter-top-middle,
+      .ui-pane-section-quarter-bottom-middle,
+      .ui-pane-section-quarter-bottom {
+        height: 25%;
+      }
+      .ui-pane-section-third-middle {
+        top: 33%;
+      }
+      .ui-pane-section-quarter-top-middle {
+        top: 25%;
+      }
+      .ui-pane-section-eighth-top-middle {
+        top: 12.5%;
+      }
+      .ui-pane-section-quarter-bottom-middle {
+        bottom: 25%;
+      }
+      .ui-pane-expandable {
+        height: auto;
+      }
+    </style>
+  </head>
+
+  <!-- 实现代码 -->
+  <script src="show.js"></script>
+
+  <body
+    onload="start()"
+    onresize="resize()"
+    onorientationchange="resize()"
+    onmousedown="context.fillStyle='rgba(0,0,0,'+opacity+')'"
+    onmouseup="context.fillStyle='rgb(0,0,0)'"
+  >
+    <!-- <li>
+      <a href="jQuery Parallax Plugin Demo.htm" title="Home"
+        ><div style="position: absolute; top: 100px; left: 540px">
+          <h1 style="font-size: 50px; color: white">WELCOME TO</h1>
+        </div></a
+      >
+    </li> -->
+
+    <div
+      style="
+        position: absolute;
+        height: fit-content;
+        width: 100%;
+        z-index: 1;
+        bottom: 40%;
+      "
+    >
+      <div
+        style="
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <h1
+          style="
+            font-size: 50px;
+            color: white;
+            margin-bottom: 0px;
+            font-family: Audiowide;
+          "
+        >
+          WELCOME TO
+        </h1>
+      </div>
+      <div
+        style="
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <h1
+          style="
+            font-size: 120px;
+            font-family: Audiowide;
+            /* letter-spacing: 6px; */
+            margin-top: 0px;
+            margin-bottom: 10px;
+          "
+        >
+          METEORIDE
+        </h1>
+      </div>
+
+      <div
+        style="
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <div
+          style="
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              font-size: 24px;
+              width: 25%;
+              display: flex;
+              /* font-family: Arial, Helvetica, sans-serif; */
+              font-family: BaiJamjuree;
+              align-items: center;
+              justify-content: center;
+              border: 2px solid #ffffff;
+              padding: 6px;
+              border-radius: 8px;
+              font-weight: bold;
+            "
+            onclick="window.open('index.html')"
+          >
+            PLAN YOUR JOURNEY
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 灰色边框 --------------------------------------------->
+    <section id="setup">
+      <div
+        style="
+          position: absolute;
+          width: 100%;
+          z-index: 2;
+          bottom: 20%;
+          display: flex;
+          justify-content: center;
+        "
+      >
+        <div
+          class="info-box bottom dim highlightable"
+          style="position: relative; width: 25%"
+        >
+          <div class="arrow"></div>
+          <h6
+            class="title"
+            style="
+              font-size: 15px;
+              font-family: Audiowide;
+              align-items: center;
+              justify-content: center;
+              margin-bottom: 5px;
+            "
+          >
+            Interactive Methods
+          </h6>
+          <div
+            class="content"
+            style="
+              font-size: 10px;
+              font-family: BaiJamjuree;
+              align-items: center;
+              justify-content: center;
+              line-height: 16px;
+            "
+          >
+            <p>
+              Press the left mouse button to accelerate the meteors<br />
+              Slide the mouse wheel to change the speed of the meteor<br />
+              Press the spacebar to return to original speed
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <canvas id="starfield" style="background-color: #000000"></canvas>
+
+    <div
+      id="adsense"
+      style="position: absolute; background-color: transparent; display: none"
+    ></div>
+  </body>
+</html>

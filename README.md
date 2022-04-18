@@ -1,51 +1,18 @@
-NASA: Prospect
-========
+# Meteoride
 
-#### Website
-[Play It!](http://nasaprospect.com/ "NASA: Prospect")
+#### About website
+
+[Play It!]("Meteoride")
 
 #### Overview
-Prospect is the interactive story of the planet prospectors, left behind by NASA to recover the golden objects of humankind scattered across the solar-system by a global disaster.  
 
-#### Core Goal
-The core goal of this project is to increase interest in space exploration.
+We are brought together by a common interest - meteor shower. After data collection, cleaning, analysis, visualization, and P5js programming and web production, we based the insight we found and transformed it into a romantic meteoride experience. We hope you enjoyed the experience!
 
-## Contributors
+#### How to open it
 
-#### Design and Development
+Click the (!!Start Page!!.html) to start your journey!!!!!!!
+There is an journey interaction in !!Start Page!!.html
 
-Amanda Connelly  
-Amy Gehling  
-Calvin LaBrie  
-Ashley Palmer  
-Keaton Solomon
-
-#### Advanced Coding Assistance
-[Collin Hover](http://collinhover.com "Collin Hover")  
-
-#### Music
-  
-Misc Artists from [Jamendo](http://jamendo.com/)
-  
-## Technology
-  
-HTML5  
-CSS3  
-Javascript  
-
-#### Libraries
- 
-Modernizr  
-LESS  
-Bootstrap  
-Require  
-jQuery  
-Signals  
-Stellar  
-SoundManager2  
-Greensock Tweening Engine  
-
----
-  
-*Copyright (C) 2012-Present all NASA Prospect contributors*  
-*For full license and information, see [LICENSE](https://github.com/collinhover/nasaprospect/blob/master/LICENSE).*
+If you click the buttom in !!Start Page!! and it will take you to index.html.
+Just slide the page to experience the amazing journey.
+Click the background to create the shooting meteors you want!!!!!
